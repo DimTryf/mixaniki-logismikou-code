@@ -1,0 +1,253 @@
+package test;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.awt.event.ActionEvent;
+
+public class EditInfo extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField1;
+	private JTextField textField3;
+	private JTextField textField4;
+	private JTextField textField5;
+	private JTextField textField8;
+	private JTextField textField9;
+	private JTextField textField2;
+	private JLabel lblNewLabel5;
+	private JTextField textField6;
+	private JButton btnViewIds;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					EditInfo frame = new EditInfo();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public EditInfo() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JLabel lblCreateNewRecoerd = new JLabel("Edit Record");
+		lblCreateNewRecoerd.setBounds(198, 66, 145, 14);
+		contentPane.add(lblCreateNewRecoerd);
+
+		JLabel lblNewLabel = new JLabel("Name");
+		lblNewLabel.setBounds(48, 94, 70, 14);
+		contentPane.add(lblNewLabel);
+
+		JLabel lblNewLabel1 = new JLabel("Surname");
+		lblNewLabel1.setBounds(48, 125, 82, 14);
+		contentPane.add(lblNewLabel1);
+
+		JLabel lblNewLabel2 = new JLabel("Father Name");
+		lblNewLabel2.setBounds(48, 157, 82, 14);
+		contentPane.add(lblNewLabel2);
+
+		JLabel lblNewLabel3 = new JLabel("Birthdate");
+		lblNewLabel3.setBounds(48, 194, 70, 14);
+		contentPane.add(lblNewLabel3);
+
+		JLabel lblNewLabel4 = new JLabel("Tameio");
+		lblNewLabel4.setBounds(48, 219, 70, 14);
+		contentPane.add(lblNewLabel4);
+
+		JLabel lblNewLabel6 = new JLabel("Phone Num");
+		lblNewLabel6.setBounds(254, 188, 74, 14);
+		contentPane.add(lblNewLabel6);
+
+		JLabel lblNewLabel7 = new JLabel("City");
+		lblNewLabel7.setBounds(254, 157, 74, 14);
+		contentPane.add(lblNewLabel7);
+
+		JLabel lblNewLabel8 = new JLabel("AMKA");
+		lblNewLabel8.setBounds(254, 125, 62, 14);
+		contentPane.add(lblNewLabel8);
+
+		textField = new JTextField();
+		textField.setBounds(140, 91, 86, 20);
+		contentPane.add(textField);
+		textField.setColumns(10);
+
+		textField1 = new JTextField();
+		textField1.setBounds(140, 122, 86, 20);
+		contentPane.add(textField1);
+		textField1.setColumns(10);
+
+		textField3 = new JTextField();
+		textField3.setBounds(338, 122, 86, 20);
+		contentPane.add(textField3);
+		textField3.setColumns(10);
+
+		textField4 = new JTextField();
+		textField4.setBounds(338, 154, 86, 20);
+		contentPane.add(textField4);
+		textField4.setColumns(10);
+
+		textField5 = new JTextField();
+		textField5.setBounds(338, 185, 86, 20);
+		contentPane.add(textField5);
+		textField5.setColumns(10);
+
+		textField8 = new JTextField();
+		textField8.setBounds(140, 216, 86, 20);
+		contentPane.add(textField8);
+		textField8.setColumns(10);
+
+		textField9 = new JTextField();
+		textField9.setColumns(10);
+		textField9.setBounds(140, 185, 86, 20);
+		contentPane.add(textField9);
+
+		textField2 = new JTextField();
+		textField2.setColumns(10);
+		textField2.setBounds(140, 154, 86, 20);
+		contentPane.add(textField2);
+
+		JButton btnDone = new JButton("Save");
+		btnDone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Class.forName("com.mysql.jdbc.Driver").newInstance();
+					String connectionUrl = "jdbc:mysql://localhost:3306/mixlog";
+					String connectionUser = "root";
+					String connectionPassword = "1234";
+					Connection conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+					String id = textField6.getText();
+					String name = textField.getText();
+					String surname = textField1.getText();
+					String fatherName = textField2.getText();
+					String bdate = textField9.getText();
+					String tameio = textField8.getText();
+					String amka = textField3.getText();
+					String city = textField4.getText();
+					String phone = textField5.getText();
+					String query = "UPDATE records SET name='" + name + "',surname='" + surname + "',fatherName='"
+							+ fatherName + "',birthdate='" + bdate + "',tameio='" + tameio + "',amka='" + amka + "',city='"
+							+ city + "',phonenum='" + phone + "' WHERE id=" + id + ";";
+					Statement st = conn.createStatement();
+					st.executeUpdate(query);
+					st.close();
+					textField.setText(null);
+					textField1.setText(null);
+					textField2.setText(null);
+					textField3.setText(null);
+					textField4.setText(null);
+					textField5.setText(null);
+					textField8.setText(null);
+					textField9.setText(null);
+				} catch (Exception e2) {
+					System.err.println("Got an exception! ");
+					System.err.println(e2.getMessage());
+				}
+
+			}
+		});
+		btnDone.setBounds(313, 215, 89, 23);
+		contentPane.add(btnDone);
+
+		lblNewLabel5 = new JLabel("");
+		lblNewLabel5.setBounds(153, 11, 46, 14);
+		contentPane.add(lblNewLabel5);
+
+		JLabel lblInputId = new JLabel("input id");
+		lblInputId.setBounds(153, 11, 46, 14);
+		contentPane.add(lblInputId);
+
+		textField6 = new JTextField();
+		textField6.setBounds(198, 8, 46, 20);
+		contentPane.add(textField6);
+		textField6.setColumns(10);
+
+		JButton btnView = new JButton("view");
+		btnView.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				try {
+					Class.forName("com.mysql.jdbc.Driver").newInstance();
+					String connectionUrl = "jdbc:mysql://localhost:3306/mixlog";
+					String connectionUser = "root";
+					String connectionPassword = "1234";
+					Connection conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+
+					String id1 = textField6.getText();
+
+					String querry = "SELECT * FROM records WHERE id=" + id1 + ";";
+					Statement st1 = conn.createStatement();
+					ResultSet rs = st1.executeQuery(querry);
+					while (rs.next()) {
+
+						String name = rs.getString("name");
+						String surname = rs.getString("surname");
+						String fathername = rs.getString("fathername");
+						String birthdate = rs.getString("birthdate");
+						String tameio = rs.getString("tameio");
+						String amka = rs.getString("amka");
+						String city = rs.getString("city");
+						String phone = rs.getString("phonenum");
+						textField.setText(name);
+						textField1.setText(surname);
+						textField2.setText(fathername);
+						textField9.setText(birthdate);
+						textField8.setText(tameio);
+						textField3.setText(amka);
+						textField4.setText(city);
+						textField5.setText(phone);
+
+					}
+
+					st1.close();
+				} catch (Exception e2) {
+					System.err.println("Got an exception! ");
+					System.err.println(e2.getMessage());
+				}
+
+			}
+		});
+		btnView.setBounds(254, 7, 89, 23);
+		contentPane.add(btnView);
+
+		btnViewIds = new JButton("View IDs");
+		btnViewIds.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Preview frame2 = new Preview();
+				frame2.setVisible(true);
+			}
+		});
+		btnViewIds.setBounds(10, 11, 89, 23);
+		contentPane.add(btnViewIds);
+	}
+}
