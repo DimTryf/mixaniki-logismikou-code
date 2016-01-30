@@ -1,0 +1,148 @@
+package test;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class AdminCreate extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField1;
+	private JTextField textField2;
+	public AdminCreate thisFrame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AdminCreate frame = new AdminCreate();
+					frame.thisFrame = frame;
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public AdminCreate() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JLabel label = new JLabel("Username");
+		label.setBounds(45, 52, 93, 14);
+		contentPane.add(label);
+
+		JLabel label1 = new JLabel("Password");
+		label1.setBounds(45, 77, 93, 14);
+		contentPane.add(label1);
+
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(148, 49, 86, 20);
+		contentPane.add(textField);
+
+		textField1 = new JTextField();
+		textField1.setColumns(10);
+		textField1.setBounds(148, 75, 86, 17);
+		contentPane.add(textField1);
+
+		JLabel lblCreateAccountForm = new JLabel("Create Account Form");
+		lblCreateAccountForm.setBounds(45, 11, 123, 14);
+		contentPane.add(lblCreateAccountForm);
+
+		JLabel lblSetPrevilliges = new JLabel("Set Previlliges");
+		lblSetPrevilliges.setBounds(45, 132, 108, 14);
+		contentPane.add(lblSetPrevilliges);
+
+		JLabel lblNewLabel = new JLabel("1 for secretary");
+		lblNewLabel.setBounds(45, 157, 86, 14);
+		contentPane.add(lblNewLabel);
+
+		JLabel lblNewlabel1 = new JLabel("2 for doctor");
+		lblNewlabel1.setBounds(45, 182, 86, 14);
+		contentPane.add(lblNewlabel1);
+
+		JLabel lblNewlabel2 = new JLabel("3 for nurse");
+		lblNewlabel2.setBounds(45, 207, 86, 14);
+		contentPane.add(lblNewlabel2);
+
+		textField2 = new JTextField();
+		textField2.setBounds(141, 179, 53, 20);
+		contentPane.add(textField2);
+		textField2.setColumns(10);
+
+		JPanel panel = new JPanel();
+		panel.setBounds(27, 147, 173, 80);
+		contentPane.add(panel);
+
+		JButton btnCreateAccount = new JButton("Create Account");
+		btnCreateAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Class.forName("com.mysql.jdbc.Driver").newInstance();
+					String connectionUrl = "jdbc:mysql://localhost:3306/mixlog";
+					String connectionUser = "root";
+					String connectionPassword = "1234";
+					Connection conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+					int count = 1;
+					String querry = "SELECT * FROM login";
+					Statement st1 = conn.createStatement();
+					ResultSet rs = st1.executeQuery(querry);
+					while (rs.next()) {
+						count++;
+					}
+					st1.close();
+					String username = textField.getText();
+					String password = textField1.getText();
+					String prevs1 = textField2.getText();
+					int prevs = Integer.parseInt(prevs1);
+					if ((prevs < 4) && (prevs > 0)) {
+						String query = "INSERT INTO login VALUES (" + count + ",'" + username + "','" + password + "',"+ prevs + ");";
+						Statement st = conn.createStatement();
+						st.executeUpdate(query);
+						st.close();
+						textField.setText(null);
+						textField1.setText(null);
+						textField2.setText(null);
+					} else {
+						System.out.println("error");
+					}
+					
+				} catch (Exception e) {
+					System.err.println("Got an exception! ");
+					System.err.println(e.getMessage());
+				}
+			}
+		});
+		btnCreateAccount.setBounds(280, 203, 108, 23);
+		contentPane.add(btnCreateAccount);
+	}
+}
