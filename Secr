@@ -1,0 +1,105 @@
+package test;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Secr extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Secr frame = new Secr();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Secr() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblWhatToDo = new JLabel("What To Do");
+		lblWhatToDo.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblWhatToDo.setBounds(162, 11, 101, 24);
+		contentPane.add(lblWhatToDo);
+		
+		JButton btnNewButton = new JButton("Create Medical File");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CreateRecord frame1 = new CreateRecord();
+				frame1.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(127, 46, 173, 23);
+		contentPane.add(btnNewButton);
+		
+		JButton btnPreviewMedicalFile = new JButton("Preview Medical File");
+		btnPreviewMedicalFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Preview frame2 = new Preview();
+				frame2.setVisible(true);
+			}
+		});
+		btnPreviewMedicalFile.setBounds(127, 80, 173, 23);
+		contentPane.add(btnPreviewMedicalFile);
+		
+		JButton btnSearchMedicalFile = new JButton("Search Medical File History");
+		btnSearchMedicalFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Search frame3 = new Search();
+				frame3.setVisible(true);
+			}
+		});
+		btnSearchMedicalFile.setBounds(127, 114, 173, 23);
+		contentPane.add(btnSearchMedicalFile);
+		
+		JButton btnInputDataTo = new JButton("Input Data To Medical File");
+		btnInputDataTo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Input frame4 = new Input();
+				frame4.setVisible(true);
+			}
+		});
+		btnInputDataTo.setBounds(127, 148, 173, 23);
+		contentPane.add(btnInputDataTo);
+		
+		JButton btnEditPatientInfo = new JButton("Edit Patient Info");
+		btnEditPatientInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EditInfo frame5 = new EditInfo();
+				frame5.setVisible(true);
+			}
+		});
+		btnEditPatientInfo.setBounds(127, 182, 173, 23);
+		contentPane.add(btnEditPatientInfo);
+	}
+
+}
