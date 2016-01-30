@@ -1,0 +1,75 @@
+package test;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Nurse extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Nurse frame = new Nurse();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Nurse() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel label = new JLabel("What To Do");
+		label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		label.setBounds(165, 11, 101, 24);
+		contentPane.add(label);
+		
+		JButton button = new JButton("Preview Medical File");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Preview frame2 = new Preview();
+				frame2.setVisible(true);
+			}
+		});
+		button.setBounds(129, 46, 173, 23);
+		contentPane.add(button);
+		
+		JButton button1 = new JButton("Search Medical File History");
+		button1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Search frame3 = new Search();
+				frame3.setVisible(true);
+			}
+		});
+		button1.setBounds(129, 83, 173, 23);
+		contentPane.add(button1);
+	}
+
+}
