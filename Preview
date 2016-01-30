@@ -1,0 +1,100 @@
+package test;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
+
+public class Preview extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Preview frame = new Preview();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Preview() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 782, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(10, 29, 746, 221);
+		contentPane.add(textArea);
+		
+		
+		JButton btnView = new JButton("View");
+		btnView.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textArea.setText("");
+				try {
+					Class.forName("com.mysql.jdbc.Driver").newInstance();
+					String connectionUrl = "jdbc:mysql://localhost:3306/mixlog";
+					String connectionUser = "root";
+					String connectionPassword = "1234";
+					Connection conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+					String querry = "SELECT * FROM records";
+					Statement st1 = conn.createStatement();
+					ResultSet rs = st1.executeQuery(querry);
+					
+					while (rs.next()) {
+						String id = rs.getString("id");
+						String name = rs.getString("name");
+						String surname = rs.getString("surname");
+						String fathername = rs.getString("fathername");
+						String birthdate = rs.getString("birthdate");
+						String tameio = rs.getString("tameio");
+						String amka = rs.getString("amka");
+						String city = rs.getString("city");
+						String phone = rs.getString("phonenum");
+						String ntext=id+"  "+name+"  "+surname+"  "+fathername+"  "+birthdate+"  "+tameio+"  "+amka+"  "+city+"  "+phone;
+						textArea.append(ntext+"\n");
+					}
+					st1.close();
+					
+					
+				} catch (Exception e1) {
+					System.err.println("Got an exception! ");
+					System.err.println(e1.getMessage());
+				}
+			}
+		});
+		btnView.setBounds(344, 0, 89, 23);
+		contentPane.add(btnView);
+		
+		
+		
+		
+	}
+}
