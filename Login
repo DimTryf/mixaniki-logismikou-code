@@ -1,0 +1,140 @@
+package test;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class Login extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField1;
+	public Login thisFrame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Login frame = new Login();
+					frame.thisFrame = frame;
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Login() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JLabel lblLogin = new JLabel("Login");
+		lblLogin.setBounds(44, 11, 46, 14);
+		contentPane.add(lblLogin);
+
+		JLabel lblUsername = new JLabel("Username");
+		lblUsername.setBounds(44, 47, 97, 14);
+		contentPane.add(lblUsername);
+
+		JLabel lblNewLabel = new JLabel("Password");
+		lblNewLabel.setBounds(44, 72, 97, 14);
+		contentPane.add(lblNewLabel);
+
+		textField = new JTextField();
+		textField.setBounds(151, 44, 86, 20);
+		contentPane.add(textField);
+		textField.setColumns(10);
+
+		textField1 = new JTextField();
+		textField1.setBounds(151, 69, 86, 20);
+		contentPane.add(textField1);
+		textField1.setColumns(10);
+
+		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String username = textField.getText();
+				String password = textField1.getText();
+				if (username.equals("admin") && password.equals("admin")) {
+					AdminCreate frame2 = new AdminCreate();
+					frame2.setVisible(true);
+					thisFrame.setVisible(false);
+				} else {
+					try {
+						Class.forName("com.mysql.jdbc.Driver").newInstance();
+						String connectionUrl = "jdbc:mysql://localhost:3306/mixlog";
+						String connectionUser = "root";
+						String connectionPassword = "1234";
+						Connection conn = DriverManager.getConnection(connectionUrl, connectionUser,connectionPassword);
+						String query = "SELECT password FROM login WHERE username='" + username + "';";
+						Statement st = conn.createStatement();
+						ResultSet rs = st.executeQuery(query);
+						while (rs.next())
+						{
+						String password1 = rs.getString("password");
+						if (password1.equals(password)) {
+							String query2 = "SELECT prevs FROM login WHERE username='" + username + "';";
+							Statement st2 = conn.createStatement();
+							ResultSet rs2 = st2.executeQuery(query2);
+							while (rs2.next())
+							{
+							String prevss = rs2.getString("prevs");
+							int prevs = Integer.parseInt(prevss);
+							if (prevs == 1) {
+								Secr frame2 = new Secr();
+								frame2.setVisible(true);
+								thisFrame.setVisible(false);
+							} else if (prevs == 2) {
+								Doctor frame2 = new Doctor();
+								frame2.setVisible(true);
+								thisFrame.setVisible(false);
+							} else if (prevs == 3) {
+								Nurse frame2 = new Nurse();
+								frame2.setVisible(true);
+								thisFrame.setVisible(false);
+							} else {
+								System.out.println("no match");
+							}}
+						}}
+						st.close();
+					} catch (Exception r) {
+						System.err.println("Got an exception! n2 ");
+						System.err.println(r.getMessage());
+					}
+
+				}
+
+			}
+		});
+		btnLogin.setBounds(98, 106, 89, 23);
+		contentPane.add(btnLogin);
+	}
+}
